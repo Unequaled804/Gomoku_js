@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">test</canvas>
+    <script>
+        const [SIDE_LEN, PADDING] = [960, 30];
+        const INNER_SIDE_LEN = SIDE_LEN - PADDING * 2;
+        const GRID_LEN = INNER_SIDE_LEN / 18;
+        console.log(SIDE_LEN, PADDING, INNER_SIDE_LEN, GRID_LEN)
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = SIDE_LEN;
+        canvas.height = SIDE_LEN;
+        console.log(GRID_LEN)
+
+        ctx.strokeRect(PADDING, PADDING, INNER_SIDE_LEN, INNER_SIDE_LEN);
+
+        let start = PADDING + GRID_LEN;
+        let end = INNER_SIDE_LEN + PADDING;
+        for (let i = 0, step = 0; i < 18; i++, step += GRID_LEN) {
+            ctx.beginPath();
+
+            ctx.moveTo(start + step, PADDING);
+            ctx.lineTo(start + step, end);
+            ctx.stroke();
+
+            ctx.moveTo(PADDING, start + step);
+            ctx.lineTo(end, start + step);
+            ctx.stroke();
+        }
+
+        const starPointsCoords = [[3, 15], [15, 3], [3, 3], [9, 9], [15, 15]];
+        for (let [row, col] of starPointsCoords) {
+            ctx.beginPath();
+            let x = PADDING + GRID_LEN * row;
+            let y = PADDING + GRID_LEN * col;
+            let r = 5;
+            ctx.arc(x, y, r, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // ctx.save();
+
+        // canvas.addEventListener("mousemove", (e) => {
+        //     ctx.restore();
+        //     let [gridX, gridY] = [Math.round((e.offsetX - PADDING) / GRID_LEN), Math.round((e.offsetY - PADDING) / GRID_LEN)];
+        //     let [coordX, coordY] = [gridX * GRID_LEN + PADDING, gridY * GRID_LEN + PADDING];
+        //     console.log(gridX, gridY,coordX, coordY)
+        //     ctx.beginPath();
+        //     ctx.arc(coordX, coordY, 10, 0, 2 * Math.PI);
+        //     ctx.fill();
+            
+        // });
+
+    </script>
+</body>
+</html>
